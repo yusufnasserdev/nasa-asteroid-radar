@@ -7,18 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.udacity.asteroidradar.repository.AppRepository
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import kotlin.math.log
 
 enum class Status { LOADING, ERROR, DONE}
 
 enum class Filter { /*Default value*/ SAVED, WEEK, TODAY }
 
 class MainViewModel(private val appRepository: AppRepository) : ViewModel() {
-
-    init {
-        getDailyPic()
-        getAsteroids()
-        displayAsteroids()
-    }
 
     private val _status = MutableLiveData<Status>()
     val status: LiveData<Status>
@@ -29,6 +24,12 @@ class MainViewModel(private val appRepository: AppRepository) : ViewModel() {
             field = value
             displayAsteroids()
         }
+
+    init {
+        getAsteroids()
+        getDailyPic()
+        displayAsteroids()
+    }
 
     val dailyPic = appRepository.dailyPic
     val asteroids = appRepository.asteroids
@@ -47,7 +48,9 @@ class MainViewModel(private val appRepository: AppRepository) : ViewModel() {
         _status.value = Status.LOADING
         viewModelScope.launch {
             try {
+                println("attempting")
                 appRepository.refreshAsteroids()
+                println("done")
                 _status.value = Status.DONE
                 displayAsteroids()
             } catch (exception: Exception) {

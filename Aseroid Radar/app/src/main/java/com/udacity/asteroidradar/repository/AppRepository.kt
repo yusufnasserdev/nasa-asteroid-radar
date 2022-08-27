@@ -13,6 +13,7 @@ import com.udacity.asteroidradar.domain.DailyPic
 import com.udacity.asteroidradar.util.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.ResponseBody
 import org.json.JSONObject
 
 class AppRepository(private val database: AppDatabase) {
@@ -30,8 +31,9 @@ class AppRepository(private val database: AppDatabase) {
 
     suspend fun refreshAsteroids() {
         withContext(Dispatchers.IO) {
-            val today = getTodayDate()
-            val asteroids = Network.service.getAsteroids(Constants.API_KEY, today)
+            val startDate = getTodayDate()
+            val endDate = getWeekendDate()
+            val asteroids = Network.service.getAsteroids(Constants.API_KEY, startDate, endDate)
             val asteroidsJson = JSONObject(asteroids)
             val resultAsteroids = parseAsteroidsJsonResult(asteroidsJson).toTypedArray()
             database.asteroidDao.insertAll(*resultAsteroids)
@@ -53,7 +55,9 @@ class AppRepository(private val database: AppDatabase) {
     }
 
     suspend fun getAllAsteroids() {
-        _asteroids.value = database.asteroidDao.getAsteroids()
+        withContext(Dispatchers.IO) {
+            _asteroids.postValue(database.asteroidDao.getAsteroids())
+        }
     }
 
     suspend fun getWeekAsteroids() {

@@ -1,6 +1,7 @@
 package com.udacity.asteroidradar.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -14,9 +15,11 @@ import com.udacity.asteroidradar.databinding.FragmentMainBinding
 import com.udacity.asteroidradar.repository.AppRepository
 import com.udacity.asteroidradar.ui.AsteroidAdapter
 import com.udacity.asteroidradar.ui.AsteroidClickListener
+import timber.log.Timber
 
 class MainFragment : Fragment() {
 
+    private lateinit var factory: MainViewModelFactory
     private lateinit var viewModel: MainViewModel
     private lateinit var binding: FragmentMainBinding
 
@@ -33,9 +36,9 @@ class MainFragment : Fragment() {
         val database = AppDatabase.getInstance(requireContext())
         val appRepository = AppRepository(database)
 
-        val viewModelFactory = MainViewModelFactory(appRepository)
+        factory = MainViewModelFactory(appRepository)
 
-        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
+        viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel

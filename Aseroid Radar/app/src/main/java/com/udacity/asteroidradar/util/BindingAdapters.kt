@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.ui.AsteroidAdapter
 import com.udacity.asteroidradar.ui.main.Status
+import timber.log.Timber
 
 @BindingAdapter("statusIcon")
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
@@ -52,6 +53,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<Asteroid>?) {
     val adapter = recyclerView.adapter as AsteroidAdapter
     adapter.submitList(data)
+    Timber.tag("info").i("received data: ${adapter.itemCount}")
 }
 
 @BindingAdapter("status")
