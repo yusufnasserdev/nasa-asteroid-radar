@@ -4,12 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.udacity.asteroidradar.database.AppDatabase
 import com.udacity.asteroidradar.repository.AppRepository
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.math.log
 
-enum class Status { LOADING, ERROR, DONE}
+enum class Status { LOADING, ERROR, DONE }
 
 enum class Filter { /*Default value*/ SAVED, WEEK, TODAY }
 
@@ -25,14 +26,14 @@ class MainViewModel(private val appRepository: AppRepository) : ViewModel() {
             displayAsteroids()
         }
 
+    val dailyPic = appRepository.dailyPic
+    val asteroids = appRepository.asteroids
+
     init {
         getAsteroids()
         getDailyPic()
         displayAsteroids()
     }
-
-    val dailyPic = appRepository.dailyPic
-    val asteroids = appRepository.asteroids
 
     private fun getDailyPic() {
         viewModelScope.launch {
@@ -48,9 +49,7 @@ class MainViewModel(private val appRepository: AppRepository) : ViewModel() {
         _status.value = Status.LOADING
         viewModelScope.launch {
             try {
-                println("attempting")
                 appRepository.refreshAsteroids()
-                println("done")
                 _status.value = Status.DONE
                 displayAsteroids()
             } catch (exception: Exception) {

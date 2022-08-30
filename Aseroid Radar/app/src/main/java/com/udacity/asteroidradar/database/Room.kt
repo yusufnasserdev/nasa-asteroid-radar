@@ -7,11 +7,11 @@ import com.udacity.asteroidradar.api.getTodayDate
 
 @Dao
 interface AsteroidDao {
-    @Query("select * from asteroids_table order by close_approach_date")
-    fun getAsteroids(): List<DatabaseAsteroid>
+    @Query("select * from asteroids_table order by id desc limit 1")
+    suspend fun getAsteroids(): List<DatabaseAsteroid>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg asteroids: DatabaseAsteroid)
+    suspend fun insertAll(vararg asteroids: DatabaseAsteroid)
 
     @Query("select * from asteroids_table where close_approach_date = :today")
     suspend fun getTodayAsteroids(today: String): List<DatabaseAsteroid>
@@ -22,8 +22,8 @@ interface AsteroidDao {
 
 @Dao
 interface DailyPicDao {
-    @Query("select * from daily_pic_table where date = :today")
-    fun getDailyPic(today: String = getTodayDate()): LiveData<DatabaseDailyPic?>
+    @Query("select * from daily_pic_table order by date ")
+    fun getLatestDailyPic(): LiveData<DatabaseDailyPic?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(dailyPic: DatabaseDailyPic)

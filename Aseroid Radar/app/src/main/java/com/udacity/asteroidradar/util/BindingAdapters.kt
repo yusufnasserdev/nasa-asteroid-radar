@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -52,15 +53,18 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 @BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<Asteroid>?) {
     val adapter = recyclerView.adapter as AsteroidAdapter
-    adapter.submitList(data)
     Timber.tag("info").i("received data: ${adapter.itemCount}")
+    adapter.submitList(data)
 }
 
 @BindingAdapter("status")
 fun bindStatus(progressBar: ProgressBar, status: Status) {
     progressBar.visibility = when (status) {
         Status.LOADING -> View.VISIBLE
-        Status.ERROR -> View.VISIBLE
+        Status.ERROR -> {
+            Toast.makeText(progressBar.context, "Error retrieving data", Toast.LENGTH_SHORT).show()
+            View.GONE
+        }
         Status.DONE -> View.GONE
     }
 }

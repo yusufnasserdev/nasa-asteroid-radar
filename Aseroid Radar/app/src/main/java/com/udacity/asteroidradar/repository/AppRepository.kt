@@ -1,6 +1,5 @@
 package com.udacity.asteroidradar.repository
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.api.Network
@@ -8,18 +7,15 @@ import com.udacity.asteroidradar.api.getTodayDate
 import com.udacity.asteroidradar.api.getWeekendDate
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.database.*
-import com.udacity.asteroidradar.domain.Asteroid
-import com.udacity.asteroidradar.domain.DailyPic
 import com.udacity.asteroidradar.util.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.ResponseBody
 import org.json.JSONObject
 
 class AppRepository(private val database: AppDatabase) {
 
 
-    val dailyPic = Transformations.map(database.dailyPicDao.getDailyPic()) {
+    val dailyPic = Transformations.map(database.dailyPicDao.getLatestDailyPic()) {
         it?.asDailyPicDomainModel()
     }
 
@@ -45,7 +41,7 @@ class AppRepository(private val database: AppDatabase) {
             val dailyPic = Network.service.getDailyPic(Constants.API_KEY)
             database.dailyPicDao.insert(
                 DatabaseDailyPic(
-                    date = getTodayDate(),
+                    date = dailyPic.date,
                     url = dailyPic.url,
                     mediaType = dailyPic.mediaType,
                     title = dailyPic.title
@@ -55,16 +51,13 @@ class AppRepository(private val database: AppDatabase) {
     }
 
     suspend fun getAllAsteroids() {
-        withContext(Dispatchers.IO) {
-            _asteroids.postValue(database.asteroidDao.getAsteroids())
-        }
+        _asteroids.value = database.asteroidDao.getAsteroids()
     }
 
     suspend fun getWeekAsteroids() {
         val startDate = getTodayDate()
         val endDate = getWeekendDate()
         _asteroids.value = database.asteroidDao.getStretchAsteroids(startDate, endDate)
-
     }
 
     suspend fun getTodayAsteroids() {

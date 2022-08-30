@@ -7,6 +7,7 @@ import java.util.*
 
 
 data class DailyPic(
+    val date: String,
     @Json(name = "media_type")
     val mediaType: String,
     val title: String,

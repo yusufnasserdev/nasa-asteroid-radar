@@ -45,7 +45,9 @@ fun List<DatabaseAsteroid>.asAsteroidDomainModel(): List<Asteroid> {
 
 @Entity(tableName = "daily_pic_table")
 data class DatabaseDailyPic constructor(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    val id: Long = 0L,
     @ColumnInfo(name = "date")
     val date: String,
     @ColumnInfo(name = "url")
@@ -58,6 +60,7 @@ data class DatabaseDailyPic constructor(
 
 fun DatabaseDailyPic.asDailyPicDomainModel(): DailyPic {
     return DailyPic(
+        date = this.date,
         mediaType = this.mediaType,
         title = this.title,
         url = this.url
