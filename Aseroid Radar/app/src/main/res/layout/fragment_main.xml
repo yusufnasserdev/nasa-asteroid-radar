@@ -29,9 +29,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
-                android:contentDescription="@string/daily_pic_description"
+                android:contentDescription="@string/daily_img_description"
                 android:scaleType="centerCrop"
-                app:imageUrl="@{viewModel.dailyPic.url}"
+                app:imageUrl="@{viewModel.nasaDailyImg.url}"
                 app:srcCompat="@drawable/placeholder_picture_of_day" />
 
             <TextView
@@ -41,7 +41,7 @@
                 android:layout_gravity="bottom"
                 android:background="#55010613"
                 android:padding="16dp"
-                android:text="@{viewModel.dailyPic.title}"
+                android:text="@{viewModel.nasaDailyImg.title}"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -58,7 +58,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_main_image_of_the_day_layout"
             app:layout_constraintVertical_bias="0.0"
-            app:listData="@{viewModel.asteroids}"
+            app:listData="@{viewModel.nasaAsteroids}"
             tools:listitem="@layout/asteroid_layout" />
 
         <ProgressBar

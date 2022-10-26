@@ -4,11 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.udacity.asteroidradar.database.AppDatabase
 import com.udacity.asteroidradar.repository.AppRepository
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import kotlin.math.log
 
 enum class Status { LOADING, ERROR, DONE }
 
@@ -26,19 +24,19 @@ class MainViewModel(private val appRepository: AppRepository) : ViewModel() {
             displayAsteroids()
         }
 
-    val dailyPic = appRepository.dailyPic
-    val asteroids = appRepository.asteroids
+    val nasaDailyImg = appRepository.dailyImg
+    val nasaAsteroids = appRepository.asteroids
 
     init {
         getAsteroids()
-        getDailyPic()
+        retrieveDailyImg()
         displayAsteroids()
     }
 
-    private fun getDailyPic() {
+    private fun retrieveDailyImg() {
         viewModelScope.launch {
             try {
-                appRepository.refreshDailyPic()
+                appRepository.refreshDailyImg()
             } catch (e: Exception) {
                 Timber.e(e)
             }
