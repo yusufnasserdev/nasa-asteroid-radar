@@ -69,9 +69,9 @@ fun getTodayDate(): String {
 }
 
 @SuppressLint("WeekBasedYear")
-fun getWeekendDate(): String {
+fun getDate(daysAfterToday: Int): String {
     val weekendCalendar = Calendar.getInstance()
-    weekendCalendar.add(Calendar.DAY_OF_YEAR, 7)
+    weekendCalendar.add(Calendar.DAY_OF_YEAR, daysAfterToday)
     val weekend = weekendCalendar.time
     return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(weekend)
 

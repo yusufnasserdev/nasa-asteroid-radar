@@ -3,9 +3,6 @@ package com.udacity.asteroidradar.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.udacity.asteroidradar.domain.Asteroid
-import com.udacity.asteroidradar.domain.DailyPic
-import java.util.*
 
 @Entity(tableName = "asteroids_table")
 data class DatabaseAsteroid constructor(
@@ -28,23 +25,8 @@ data class DatabaseAsteroid constructor(
     val isPotentiallyHazardous: Boolean
 )
 
-fun List<DatabaseAsteroid>.asAsteroidDomainModel(): List<Asteroid> {
-    return map {
-        Asteroid(
-            id = it.id,
-            codename = it.codename,
-            closeApproachDate = it.closeApproachDate,
-            absoluteMagnitude = it.absoluteMagnitude,
-            estimatedDiameter = it.estimatedDiameter,
-            relativeVelocity = it.relativeVelocity,
-            distanceFromEarth = it.distanceFromEarth,
-            isPotentiallyHazardous = it.isPotentiallyHazardous
-        )
-    }
-}
-
-@Entity(tableName = "daily_pic_table")
-data class DatabaseDailyPic constructor(
+@Entity(tableName = "daily_img_table")
+data class DatabaseDailyImage constructor(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Long = 0L,
@@ -57,12 +39,3 @@ data class DatabaseDailyPic constructor(
     @ColumnInfo(name = "title")
     val title: String
 )
-
-fun DatabaseDailyPic.asDailyPicDomainModel(): DailyPic {
-    return DailyPic(
-        date = this.date,
-        mediaType = this.mediaType,
-        title = this.title,
-        url = this.url
-    )
-}

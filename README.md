@@ -1,5 +1,5 @@
 # nasa-asteroid-radar
-Andriod App for viewing the asteroids detected by NASA that pass near Earth using Kotlin.
+Andriod App for viewing the asteroids passing near Earth and detected by NASA, developed using Kotlin.
 
 ## Getting Started
 

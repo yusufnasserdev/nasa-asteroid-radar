@@ -24,18 +24,18 @@ class MainViewModel(private val appRepository: AppRepository) : ViewModel() {
             displayAsteroids(filter)
         }
 
-    val dailyPic = appRepository.dailyPic
-    val asteroids = appRepository.asteroids
+    val nasaDailyImg = appRepository.dailyImg
+    val nasaAsteroids = appRepository.asteroids
 
     init {
         getDailyPic()
         getAsteroids()
     }
 
-    private fun getDailyPic() {
+    private fun retrieveDailyImg() {
         viewModelScope.launch {
             try {
-                appRepository.refreshDailyPic()
+                appRepository.refreshDailyImg()
             } catch (e: Exception) {
                 Timber.e(e)
             }

@@ -2,10 +2,7 @@ package com.udacity.asteroidradar.repository
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.udacity.asteroidradar.api.Network
-import com.udacity.asteroidradar.api.getTodayDate
-import com.udacity.asteroidradar.api.getWeekendDate
-import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
+import com.udacity.asteroidradar.api.*
 import com.udacity.asteroidradar.database.*
 import com.udacity.asteroidradar.util.Constants
 import kotlinx.coroutines.Dispatchers
@@ -15,8 +12,8 @@ import org.json.JSONObject
 class AppRepository(private val database: AppDatabase) {
 
 
-    val dailyPic = Transformations.map(database.dailyPicDao.getLatestDailyPic()) {
-        it?.asDailyPicDomainModel()
+    val dailyImg = Transformations.map(database.dailyImgDao.getLatestDailyImage()) {
+        it?.asDailyImageDomainModel()
     }
 
     private var _asteroids = MutableLiveData<List<DatabaseAsteroid>>()
@@ -28,7 +25,7 @@ class AppRepository(private val database: AppDatabase) {
     suspend fun refreshAsteroids() {
         withContext(Dispatchers.IO) {
             val startDate = getTodayDate()
-            val endDate = getWeekendDate()
+            val endDate = getDate(7)
             val asteroids = Network.service.getAsteroids(Constants.API_KEY, startDate, endDate)
             val asteroidsJson = JSONObject(asteroids)
             val resultAsteroids = parseAsteroidsJsonResult(asteroidsJson).toTypedArray()
@@ -36,15 +33,15 @@ class AppRepository(private val database: AppDatabase) {
         }
     }
 
-    suspend fun refreshDailyPic() {
+    suspend fun refreshDailyImg() {
         withContext(Dispatchers.IO) {
-            val dailyPic = Network.service.getDailyPic(Constants.API_KEY)
-            database.dailyPicDao.insert(
-                DatabaseDailyPic(
-                    date = dailyPic.date,
-                    url = dailyPic.url,
-                    mediaType = dailyPic.mediaType,
-                    title = dailyPic.title
+            val dailyImg = Network.service.getDailyImg(Constants.API_KEY)
+            database.dailyImgDao.insert(
+                DatabaseDailyImage(
+                    date = dailyImg.date,
+                    url = dailyImg.url,
+                    mediaType = dailyImg.mediaType,
+                    title = dailyImg.title
                 )
             )
         }
@@ -56,12 +53,12 @@ class AppRepository(private val database: AppDatabase) {
 
     suspend fun getWeekAsteroids() {
         val startDate = getTodayDate()
-        val endDate = getWeekendDate()
+        val endDate = getDate(6)
         _asteroids.value = database.asteroidDao.getStretchAsteroids(startDate, endDate)
     }
 
     suspend fun getTodayAsteroids() {
-        _asteroids.value = database.asteroidDao.getTodayAsteroids(getTodayDate())
+        _asteroids.value = database.asteroidDao.getStretchAsteroids(getTodayDate(), getTodayDate())
     }
 
 }
