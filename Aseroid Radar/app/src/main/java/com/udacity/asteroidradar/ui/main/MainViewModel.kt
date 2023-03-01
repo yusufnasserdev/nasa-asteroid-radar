@@ -28,7 +28,7 @@ class MainViewModel(private val appRepository: AppRepository) : ViewModel() {
     val nasaAsteroids = appRepository.asteroids
 
     init {
-        getDailyPic()
+        retrieveDailyImg()
         getAsteroids()
     }
 
