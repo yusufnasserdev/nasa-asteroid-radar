@@ -13,14 +13,12 @@ The app consists of two screens: A Main screen with a list of all the detected a
 
 Making this app taught me some of the most fundamental skills as an android developer, as fetching data from the internet, saving data to a database, and display the data in a clear, clean, compelling UI.
 
-### Screenshots
+## Screenshots
 
-![Screenshot 1](Aseroid%20Radar/screenshots/screen_1.png)
-![Screenshot 2](Aseroid%20Radar/screenshots/screen_2.png)
-![Screenshot 3](Aseroid%20Radar/screenshots/screen_3.png)
-![Screenshot 4](Aseroid%20Radar/screenshots/screen_4.png)
+![Screenshot 1](Aseroid%20Radar/screenshots/screen_1.png) ![Screenshot 2](Aseroid%20Radar/screenshots/screen_2.png)
+![Screenshot 3](Aseroid%20Radar/screenshots/screen_3.png) ![Screenshot 4](Aseroid%20Radar/screenshots/screen_4.png)
 
-### Dependencies
+## Dependencies
 
 ```
 implementation fileTree(dir: 'libs', include: ['*.jar'])
