@@ -7,6 +7,10 @@ import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
+object NetworkUtilsConstants {
+    const val DATE_FORMAT = "yyyy-MM-dd"
+}
+
 fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<DatabaseAsteroid> {
     val nearEarthObjectsJson = jsonResult.getJSONObject("near_earth_objects")
 
@@ -46,14 +50,13 @@ fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<DatabaseAsteroid
     return asteroidList
 }
 
-@SuppressLint("WeekBasedYear")
 private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
     val formattedDateList = ArrayList<String>()
 
     val calendar = Calendar.getInstance()
     for (i in 0..Constants.DEFAULT_END_DATE_DAYS) {
         val currentTime = calendar.time
-        val dateFormat = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT, Locale.getDefault())
+        val dateFormat = SimpleDateFormat(NetworkUtilsConstants.DATE_FORMAT, Locale.getDefault())
         formattedDateList.add(dateFormat.format(currentTime))
         calendar.add(Calendar.DAY_OF_YEAR, 1)
     }
@@ -61,18 +64,16 @@ private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
     return formattedDateList
 }
 
-@SuppressLint("WeekBasedYear")
 fun getTodayDate(): String {
     val date = Calendar.getInstance().time
-    return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date)
+    return SimpleDateFormat(NetworkUtilsConstants.DATE_FORMAT, Locale.getDefault()).format(date)
 
 }
 
-@SuppressLint("WeekBasedYear")
 fun getDate(daysAfterToday: Int): String {
     val weekendCalendar = Calendar.getInstance()
     weekendCalendar.add(Calendar.DAY_OF_YEAR, daysAfterToday)
     val weekend = weekendCalendar.time
-    return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(weekend)
+    return SimpleDateFormat(NetworkUtilsConstants.DATE_FORMAT, Locale.getDefault()).format(weekend)
 
 }
