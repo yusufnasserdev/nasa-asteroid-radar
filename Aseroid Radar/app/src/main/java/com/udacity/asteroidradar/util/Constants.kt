@@ -1,7 +1,9 @@
 package com.udacity.asteroidradar.util
 
+import com.udacity.asteroidradar.BuildConfig
+
 object Constants {
     const val DEFAULT_END_DATE_DAYS = 7
     const val BASE_URL = "https://api.nasa.gov/"
-    const val API_KEY = "INSERT API KEY HERE"
+    val API_KEY = System.getenv("API_KEY") ?: "DEMO_KEY"
 }

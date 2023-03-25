@@ -3,7 +3,7 @@ Andriod App for tracking the asteroids passing near Earth and viewing them, powe
 
 ## Getting Started
 
-In com.udacity.asteroidradar.util.Constants.kt insert your version of the api: `API_KEY = "INSERT API KEY HERE"`
+In `local.properties` insert your version of the api key: `API_KEY = "INSERT API KEY HERE"`
 
 Asteroid Radar is an app to view the asteroids detected by NASA that pass near Earth, you can view all the detected asteroids in a period of time, their data (Size, velocity, distance to Earth) and if they are potentially hazardous.
 
