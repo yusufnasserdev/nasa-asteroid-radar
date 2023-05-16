@@ -1,13 +1,12 @@
 package com.udacity.asteroidradar.api
 
-import android.annotation.SuppressLint
 import com.udacity.asteroidradar.database.DatabaseAsteroid
 import com.udacity.asteroidradar.util.Constants
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
-object NetworkUtilsConstants {
+object NetworkConstants {
     const val DATE_FORMAT = "yyyy-MM-dd"
 }
 
@@ -56,7 +55,7 @@ private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
     val calendar = Calendar.getInstance()
     for (i in 0..Constants.DEFAULT_END_DATE_DAYS) {
         val currentTime = calendar.time
-        val dateFormat = SimpleDateFormat(NetworkUtilsConstants.DATE_FORMAT, Locale.getDefault())
+        val dateFormat = SimpleDateFormat(NetworkConstants.DATE_FORMAT, Locale.getDefault())
         formattedDateList.add(dateFormat.format(currentTime))
         calendar.add(Calendar.DAY_OF_YEAR, 1)
     }
@@ -66,7 +65,7 @@ private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
 
 fun getTodayDate(): String {
     val date = Calendar.getInstance().time
-    return SimpleDateFormat(NetworkUtilsConstants.DATE_FORMAT, Locale.getDefault()).format(date)
+    return SimpleDateFormat(NetworkConstants.DATE_FORMAT, Locale.getDefault()).format(date)
 
 }
 
@@ -74,6 +73,6 @@ fun getDate(daysAfterToday: Int): String {
     val weekendCalendar = Calendar.getInstance()
     weekendCalendar.add(Calendar.DAY_OF_YEAR, daysAfterToday)
     val weekend = weekendCalendar.time
-    return SimpleDateFormat(NetworkUtilsConstants.DATE_FORMAT, Locale.getDefault()).format(weekend)
+    return SimpleDateFormat(NetworkConstants.DATE_FORMAT, Locale.getDefault()).format(weekend)
 
 }
